@@ -870,7 +870,7 @@
 
     <script>
         // ===== API Base URL =====
-        const API_BASE = 'http://localhost:5000';
+        const API_BASE = 'https://naveen-backend.onrender.com';
 
         // ===== Landing / Bio Navigation =====
         const landing = document.getElementById('landing');
@@ -1129,7 +1129,7 @@
                 }
             } catch (error) {
                 typingDiv.remove();
-                addMessage('Unable to connect to the server. Make sure the Flask backend is running on localhost:5000.', 'assistant');
+                addMessage('Unable to connect to the server. The backend may be starting up — please try again in a moment.', 'assistant');
                 console.error('Chat error:', error);
             }
 

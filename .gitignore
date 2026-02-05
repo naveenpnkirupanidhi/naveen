@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment
+.env
+
+# Generated files
+generated_images/
+portfolio/generated_images/
+
+# IDE
+*.code-workspace
+.vscode/
+
+# OS
+Thumbs.db
+.DS_Store
