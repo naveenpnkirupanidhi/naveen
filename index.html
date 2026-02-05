@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Polka Party</title>
+    <style>
+        :root {
+            --mouse-x: 0;
+            --mouse-y: 0;
+            /* Default Theme (Neon) */
+            --bg: #0f172a;
+            --c1: #ff6b6b;
+            --c2: #4ecdc4;
+            --c3: #ffe66d;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background-color: var(--bg);
+            transition: background-color 0.8s ease;
+            font-family: system-ui, sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+
+            background-image:
+                radial-gradient(var(--c1) 2px, transparent 0),
+                radial-gradient(var(--c2) 1.5px, transparent 0),
+                radial-gradient(var(--c3) 2.5px, transparent 0);
+            background-size: 100px 100px, 150px 150px, 200px 200px;
+
+            animation: drift 40s linear infinite;
+            background-position:
+                calc(0px + (var(--mouse-x) * 0.05)) calc(0px + (var(--mouse-y) * 0.05)),
+                calc(40px + (var(--mouse-x) * -0.1)) calc(60px + (var(--mouse-y) * -0.1)),
+                calc(10px + (var(--mouse-x) * 0.15)) calc(10px + (var(--mouse-y) * 0.15));
+        }
+
+        @keyframes drift {
+            to { background-position-y: 500px, 800px, 1000px; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 3rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: white;
+            pointer-events: none; /* Click "through" the card to the body */
+            user-select: none;
+        }
+
+        h1 { margin: 0; font-size: 2rem; }
+        p { opacity: 0.7; }
+    </style>
+</head>
+<body>
+
+    <div class="glass-card">
+        <h1>Click to Switch</h1>
+        <p>Interactive colors & parallax dots.</p>
+    </div>
+
+    <script>
+        const themes = [
+            { bg: '#0f172a', c1: '#ff6b6b', c2: '#4ecdc4', c3: '#ffe66d' }, // Neon
+            { bg: '#fff5f5', c1: '#feb2b2', c2: '#fbb6ce', c3: '#fff5f5' }, // Soft Pink
+            { bg: '#065f46', c1: '#34d399', c2: '#6ee7b7', c3: '#10b981' }, // Forest
+            { bg: '#2d3436', c1: '#a29bfe', c2: '#74b9ff', c3: '#81ecec' }  // Cyber
+        ];
+
+        let current = 0;
+        const root = document.documentElement;
+
+        // Mouse Tracking
+        window.addEventListener('mousemove', (e) => {
+            requestAnimationFrame(() => {
+                root.style.setProperty('--mouse-x', e.clientX + 'px');
+                root.style.setProperty('--mouse-y', e.clientY + 'px');
+            });
+        });
+
+        // Click to change theme
+        window.addEventListener('mousedown', () => {
+            current = (current + 1) % themes.length;
+            const theme = themes[current];
+            root.style.setProperty('--bg', theme.bg);
+            root.style.setProperty('--c1', theme.c1);
+            root.style.setProperty('--c2', theme.c2);
+            root.style.setProperty('--c3', theme.c3);
+        });
+    </script>
+</body>
+</html>
