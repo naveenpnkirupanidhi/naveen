@@ -259,6 +259,400 @@
             transform: translateY(-2px);
         }
 
+        /* ===== AI Agents Section ===== */
+        .agents-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .agents-header p {
+            font-size: 0.95rem;
+            opacity: 0.5;
+            margin-top: 8px;
+        }
+
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .agent-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 28px 24px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--agent-color, #ff9966);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .agent-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--card-mouse-x, 50%) var(--card-mouse-y, 50%),
+                rgba(255,255,255,0.08) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: var(--agent-color, #ff9966);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.3),
+                        0 0 24px rgba(var(--agent-color-rgb, 255,153,102), 0.15);
+        }
+
+        .agent-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .agent-card:hover::after {
+            opacity: 1;
+        }
+
+        .agent-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .agent-card:hover .agent-icon {
+            background: var(--agent-color, #ff9966);
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .agent-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .agent-card > p {
+            font-size: 0.85rem;
+            color: #888;
+            line-height: 1.5;
+            margin-bottom: 14px;
+            opacity: 1;
+        }
+
+        .agent-examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .agent-example {
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .agent-card:hover .agent-example {
+            background: rgba(var(--agent-color-rgb, 255,153,102), 0.2);
+            color: var(--agent-color, #ff9966);
+        }
+
+        /* ===== Chat Modal ===== */
+        .chat-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .chat-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .chat-container {
+            width: 90%;
+            max-width: 700px;
+            height: 80vh;
+            max-height: 700px;
+            background: #1a1a1a;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+        }
+
+        .chat-modal.active .chat-container {
+            transform: scale(1) translateY(0);
+        }
+
+        .chat-header {
+            padding: 20px 24px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .chat-header-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            background: var(--agent-color, #ff9966);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #fff;
+        }
+
+        .chat-header-info h3 {
+            font-size: 1.15rem;
+            margin-bottom: 2px;
+        }
+
+        .chat-header-info p {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .chat-close {
+            margin-left: auto;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            border: none;
+            color: #888;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .chat-close:hover {
+            background: rgba(255,100,100,0.2);
+            color: #ff6666;
+            transform: rotate(90deg);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .chat-messages::-webkit-scrollbar { width: 5px; }
+        .chat-messages::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+        .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+        .chat-message {
+            max-width: 85%;
+            padding: 14px 18px;
+            border-radius: 18px;
+            font-size: 0.93rem;
+            line-height: 1.6;
+            animation: messageSlide 0.3s ease;
+        }
+
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-message.user {
+            background: var(--agent-color, #ff9966);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 6px;
+        }
+
+        .chat-message.assistant {
+            background: rgba(255,255,255,0.08);
+            color: #ddd;
+            align-self: flex-start;
+            border-bottom-left-radius: 6px;
+        }
+
+        .chat-message.assistant pre {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 8px 0;
+            font-size: 0.83rem;
+        }
+
+        .chat-message.assistant code {
+            font-family: 'Consolas', monospace;
+        }
+
+        .chat-message.system {
+            background: rgba(255,255,255,0.03);
+            color: #666;
+            align-self: center;
+            font-size: 0.83rem;
+            padding: 8px 16px;
+        }
+
+        .chat-message img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin-top: 8px;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 18px;
+            align-self: flex-start;
+            border-bottom-left-radius: 6px;
+        }
+
+        .typing-indicator span {
+            width: 7px;
+            height: 7px;
+            background: #888;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+        }
+
+        .chat-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 12px 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .chat-suggestion {
+            padding: 7px 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            color: #888;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chat-suggestion:hover {
+            background: var(--agent-color, #ff9966);
+            border-color: var(--agent-color, #ff9966);
+            color: #fff;
+        }
+
+        .chat-input-area {
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.03);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 13px 18px;
+            color: #fff;
+            font-size: 0.93rem;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .chat-input:focus {
+            border-color: var(--agent-color, #ff9966);
+            box-shadow: 0 0 0 3px rgba(var(--agent-color-rgb, 255,153,102), 0.2);
+        }
+
+        .chat-input::placeholder { color: #555; }
+
+        .chat-send {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            background: var(--agent-color, #ff9966);
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .chat-send:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(var(--agent-color-rgb, 255,153,102), 0.4);
+        }
+
+        .chat-send:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         /* Theme indicator */
         .theme-hint {
             position: fixed;
@@ -277,7 +671,7 @@
             user-select: none;
         }
 
-        /* Responsive */
+        /* ===== Responsive ===== */
         @media (max-width: 600px) {
             .bio-panel {
                 padding: 32px 24px;
@@ -290,6 +684,16 @@
 
             .contact-links {
                 flex-direction: column;
+            }
+
+            .agents-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-container {
+                width: 95%;
+                height: 90vh;
+                border-radius: 16px;
             }
         }
     </style>
@@ -364,6 +768,70 @@
                 </div>
             </div>
 
+            <!-- AI Agents Section -->
+            <div class="bio-section">
+                <h2>AI Agents</h2>
+                <div class="agents-header">
+                    <p>Intelligent assistants powered by cutting-edge AI. Click any agent to start a conversation.</p>
+                </div>
+                <div class="agents-grid">
+                    <div class="agent-card" data-agent="sql" style="--agent-color: #ff9966; --agent-color-rgb: 255,153,102;">
+                        <div class="agent-icon">&#128451;&#65039;</div>
+                        <h3>SQL Agent</h3>
+                        <p>Query company database using natural language. Get insights about employees, departments, and projects.</p>
+                        <div class="agent-examples">
+                            <span class="agent-example">Average salary</span>
+                            <span class="agent-example">Top earners</span>
+                            <span class="agent-example">Projects</span>
+                        </div>
+                    </div>
+
+                    <div class="agent-card" data-agent="rag" style="--agent-color: #66cccc; --agent-color-rgb: 102,204,204;">
+                        <div class="agent-icon">&#128196;</div>
+                        <h3>Document Q&A</h3>
+                        <p>Ask questions about company policies, employee handbook, benefits, and procedures.</p>
+                        <div class="agent-examples">
+                            <span class="agent-example">PTO policy</span>
+                            <span class="agent-example">401k matching</span>
+                            <span class="agent-example">Benefits</span>
+                        </div>
+                    </div>
+
+                    <div class="agent-card" data-agent="weather" style="--agent-color: #9966ff; --agent-color-rgb: 153,102,255;">
+                        <div class="agent-icon">&#127780;&#65039;</div>
+                        <h3>Weather Agent</h3>
+                        <p>Get real-time weather information and forecasts for any location around the world.</p>
+                        <div class="agent-examples">
+                            <span class="agent-example">Singapore</span>
+                            <span class="agent-example">Forecast</span>
+                            <span class="agent-example">Outdoor?</span>
+                        </div>
+                    </div>
+
+                    <div class="agent-card" data-agent="recommender" style="--agent-color: #66ff99; --agent-color-rgb: 102,255,153;">
+                        <div class="agent-icon">&#128197;</div>
+                        <h3>Event Recommender</h3>
+                        <p>Get personalized event and activity recommendations based on weather and preferences.</p>
+                        <div class="agent-examples">
+                            <span class="agent-example">Today's events</span>
+                            <span class="agent-example">Indoor</span>
+                            <span class="agent-example">Weekend</span>
+                        </div>
+                    </div>
+
+                    <div class="agent-card" data-agent="image" style="--agent-color: #ff6699; --agent-color-rgb: 255,102,153;">
+                        <div class="agent-icon">&#127912;</div>
+                        <h3>Image Generator</h3>
+                        <p>Generate stunning images from text descriptions using DALL-E AI with prompt enhancement.</p>
+                        <div class="agent-examples">
+                            <span class="agent-example">Sunset</span>
+                            <span class="agent-example">Futuristic</span>
+                            <span class="agent-example">Nature</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="bio-section">
                 <h2>Contact</h2>
                 <div class="contact-links">
@@ -375,33 +843,53 @@
         </div>
     </div>
 
+    <!-- Chat Modal -->
+    <div class="chat-modal" id="chatModal">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-header-icon" id="chatHeaderIcon">&#129302;</div>
+                <div class="chat-header-info">
+                    <h3 id="chatHeaderTitle">AI Agent</h3>
+                    <p id="chatHeaderDesc">Ask me anything</p>
+                </div>
+                <button class="chat-close" id="chatClose">&times;</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message system">Click a suggestion or type your question below</div>
+            </div>
+            <div class="chat-suggestions" id="chatSuggestions"></div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Type your message...">
+                <button class="chat-send" id="chatSend">&#10148;</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Theme shortcut hint -->
     <div class="theme-hint">Press Space to change theme</div>
 
     <script>
+        // ===== API Base URL =====
+        const API_BASE = 'http://localhost:5000';
+
+        // ===== Landing / Bio Navigation =====
         const landing = document.getElementById('landing');
         const bio = document.getElementById('bio');
         const backBtn = document.getElementById('backBtn');
-        let bioVisible = false;
 
-        // Show bio on landing click
         landing.addEventListener('click', () => {
             landing.classList.add('hidden');
             bio.classList.add('visible');
             document.body.style.overflow = 'auto';
-            bioVisible = true;
         });
 
-        // Back to landing
         backBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             bio.classList.remove('visible');
             landing.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
-            bioVisible = false;
         });
 
-        // Prevent bio panel clicks from bubbling
         document.querySelector('.bio-panel').addEventListener('click', (e) => {
             e.stopPropagation();
         });
@@ -418,7 +906,7 @@
         const root = document.documentElement;
 
         window.addEventListener('keydown', (e) => {
-            if (e.code === 'Space') {
+            if (e.code === 'Space' && !document.querySelector('.chat-modal.active')) {
                 e.preventDefault();
                 current = (current + 1) % themes.length;
                 const theme = themes[current];
@@ -436,6 +924,300 @@
                 root.style.setProperty('--mouse-y', e.clientY + 'px');
             });
         });
+
+        // ===== Agent Configuration =====
+        const agentConfig = {
+            sql: {
+                icon: '\u{1F5C3}\uFE0F',
+                title: 'SQL Agent',
+                description: 'Query company database using natural language',
+                color: '#ff9966',
+                colorRgb: '255,153,102',
+                suggestions: [
+                    'What is the average salary by department?',
+                    'Which employees earn more than 80000?',
+                    'Show all projects in progress'
+                ],
+                endpoint: '/api/chat/sql'
+            },
+            rag: {
+                icon: '\u{1F4C4}',
+                title: 'Document Q&A',
+                description: 'Ask about company policies and handbook',
+                color: '#66cccc',
+                colorRgb: '102,204,204',
+                suggestions: [
+                    'How much PTO do I get?',
+                    'What is the 401k matching policy?',
+                    'How do I report harassment?'
+                ],
+                endpoint: '/api/chat/rag'
+            },
+            weather: {
+                icon: '\u{1F324}\uFE0F',
+                title: 'Weather Agent',
+                description: 'Get real-time weather information',
+                color: '#9966ff',
+                colorRgb: '153,102,255',
+                suggestions: [
+                    'What is the weather in Singapore?',
+                    'Weather forecast for London',
+                    'Is it good for outdoor activities in New York?'
+                ],
+                endpoint: '/api/chat/weather'
+            },
+            recommender: {
+                icon: '\u{1F4C5}',
+                title: 'Event Recommender',
+                description: 'Get personalized event recommendations',
+                color: '#66ff99',
+                colorRgb: '102,255,153',
+                suggestions: [
+                    'What events should I attend today?',
+                    'Recommend indoor activities',
+                    'What to do this weekend in Singapore?'
+                ],
+                endpoint: '/api/chat/recommender'
+            },
+            image: {
+                icon: '\u{1F3A8}',
+                title: 'Image Generator',
+                description: 'Generate images with AI (DALL-E)',
+                color: '#ff6699',
+                colorRgb: '255,102,153',
+                suggestions: [
+                    'A sunset over mountains',
+                    'A futuristic city at night',
+                    'A cat sitting on a windowsill'
+                ],
+                endpoint: '/api/chat/image'
+            }
+        };
+
+        // ===== Chat Elements =====
+        const chatModal = document.getElementById('chatModal');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatSuggestions = document.getElementById('chatSuggestions');
+        const chatInput = document.getElementById('chatInput');
+        const chatSend = document.getElementById('chatSend');
+        const chatClose = document.getElementById('chatClose');
+        const chatHeaderIcon = document.getElementById('chatHeaderIcon');
+        const chatHeaderTitle = document.getElementById('chatHeaderTitle');
+        const chatHeaderDesc = document.getElementById('chatHeaderDesc');
+        let currentAgent = null;
+
+        // ===== Agent Card Click Handlers =====
+        document.querySelectorAll('.agent-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const agentId = card.dataset.agent;
+                openChat(agentId);
+            });
+
+            // Mouse glow effect
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                card.style.setProperty('--card-mouse-x', x + '%');
+                card.style.setProperty('--card-mouse-y', y + '%');
+            });
+        });
+
+        // ===== Open Chat =====
+        function openChat(agentId) {
+            currentAgent = agentConfig[agentId];
+            if (!currentAgent) return;
+
+            chatHeaderIcon.textContent = currentAgent.icon;
+            chatHeaderIcon.style.background = currentAgent.color;
+            chatHeaderTitle.textContent = currentAgent.title;
+            chatHeaderDesc.textContent = currentAgent.description;
+
+            chatModal.style.setProperty('--agent-color', currentAgent.color);
+            chatModal.style.setProperty('--agent-color-rgb', currentAgent.colorRgb);
+
+            chatMessages.innerHTML = `
+                <div class="chat-message system">
+                    Welcome! I'm the ${currentAgent.title}. ${currentAgent.description}.
+                    Click a suggestion or type your question below.
+                </div>
+            `;
+
+            chatSuggestions.innerHTML = currentAgent.suggestions.map(s =>
+                `<button class="chat-suggestion">${s}</button>`
+            ).join('');
+
+            chatSuggestions.querySelectorAll('.chat-suggestion').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    chatInput.value = btn.textContent;
+                    sendMessage();
+                });
+            });
+
+            chatModal.classList.add('active');
+            chatInput.focus();
+        }
+
+        // ===== Close Chat =====
+        function closeChat() {
+            chatModal.classList.remove('active');
+            currentAgent = null;
+        }
+
+        chatClose.addEventListener('click', closeChat);
+
+        chatModal.addEventListener('click', (e) => {
+            if (e.target === chatModal) closeChat();
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeChat();
+        });
+
+        // ===== Send Message =====
+        chatSend.addEventListener('click', sendMessage);
+
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message || !currentAgent) return;
+
+            chatInput.disabled = true;
+            chatSend.disabled = true;
+
+            addMessage(message, 'user');
+            chatInput.value = '';
+
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.innerHTML = '<span></span><span></span><span></span>';
+            chatMessages.appendChild(typingDiv);
+            scrollToBottom();
+
+            try {
+                const body = { message: message };
+
+                if (currentAgent.endpoint === '/api/chat/image') {
+                    if (message.toLowerCase().includes('generate') ||
+                        message.toLowerCase().includes('create') ||
+                        message.toLowerCase().includes('make')) {
+                        body.generate = true;
+                    }
+                }
+
+                const response = await fetch(API_BASE + currentAgent.endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+
+                const data = await response.json();
+                typingDiv.remove();
+
+                if (data.success) {
+                    addMessage(data.response, 'assistant');
+
+                    if (currentAgent.endpoint === '/api/chat/image' && data.enhanced_prompt && !data.image_url) {
+                        addGenerateButton(data.enhanced_prompt);
+                    }
+                } else {
+                    addMessage('Sorry, there was an error: ' + (data.response || 'Unknown error'), 'assistant');
+                }
+            } catch (error) {
+                typingDiv.remove();
+                addMessage('Unable to connect to the server. Make sure the Flask backend is running on localhost:5000.', 'assistant');
+                console.error('Chat error:', error);
+            }
+
+            chatInput.disabled = false;
+            chatSend.disabled = false;
+            chatInput.focus();
+        }
+
+        // ===== Add Message =====
+        function addMessage(content, type) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `chat-message ${type}`;
+
+            let formatted = content
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                .replace(/\n/g, '<br>')
+                .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
+
+            msgDiv.innerHTML = formatted;
+            chatMessages.appendChild(msgDiv);
+            scrollToBottom();
+        }
+
+        // ===== Generate Button (Image Agent) =====
+        function addGenerateButton(enhancedPrompt) {
+            const btnDiv = document.createElement('div');
+            btnDiv.className = 'chat-message assistant';
+            btnDiv.innerHTML = `
+                <button style="
+                    background: ${currentAgent.color};
+                    color: white;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 0.9rem;
+                    margin-top: 10px;
+                    transition: all 0.3s ease;
+                    font-family: inherit;
+                ">&#127912; Generate Image (uses API credits)</button>
+            `;
+            chatMessages.appendChild(btnDiv);
+            scrollToBottom();
+
+            btnDiv.querySelector('button').addEventListener('click', async () => {
+                btnDiv.remove();
+                chatInput.disabled = true;
+                chatSend.disabled = true;
+
+                addMessage('Generate: ' + enhancedPrompt.substring(0, 100) + '...', 'user');
+
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                typingDiv.innerHTML = '<span></span><span></span><span></span>';
+                chatMessages.appendChild(typingDiv);
+                scrollToBottom();
+
+                try {
+                    const response = await fetch(API_BASE + '/api/chat/image', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: enhancedPrompt, generate: true })
+                    });
+
+                    const data = await response.json();
+                    typingDiv.remove();
+
+                    if (data.success) {
+                        addMessage(data.response, 'assistant');
+                    } else {
+                        addMessage('Error generating image: ' + (data.response || 'Unknown error'), 'assistant');
+                    }
+                } catch (error) {
+                    typingDiv.remove();
+                    addMessage('Unable to generate image. Please try again.', 'assistant');
+                }
+
+                chatInput.disabled = false;
+                chatSend.disabled = false;
+                chatInput.focus();
+            });
+        }
+
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
     </script>
 </body>
 </html>
